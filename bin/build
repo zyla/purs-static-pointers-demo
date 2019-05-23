@@ -1,0 +1,11 @@
+#!/bin/bash
+set -euo pipefail
+
+. env.sh
+
+rm -rf output/{App,Widget,Client,Server,StaticPtr}
+mkdir -p dist
+psc-package sources | xargs purs compile 'src/**/*.purs'
+purs bundle --main Server -m Server output/*/*.js -o output/server.js
+purs bundle --main Client -m Client output/*/*.js -o dist/client.js
+node output/server.js | tee dist/index.html

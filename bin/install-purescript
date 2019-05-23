@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -euo pipefail
+
+TARGET_DIR=$(realpath $(dirname $0))
+SOURCE=$1
+
+cd $SOURCE
+stack build
+cp -v $(stack exec -- which purs) $TARGET_DIR
